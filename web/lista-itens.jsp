@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Listagem de Items</title>
     <link rel="stylesheet" type="text/css" href="dswae01.css">
     <link rel="stylesheet" type="text/css" href="css_menu.css">
@@ -42,10 +41,10 @@
           <td>${item.quantidade}</td>
           <td>${item.valor}</td>
           <td>${item.total}</td>
-          <td><a href="mvc?logica=AlteraItem&id=${item.id}">Editar</a></td>
-          <td><a href="mvc?logica=RemoveItem&id=${item.id}">Excluir</a></td>
+          <td><a href="mvc?logica=AlteraItem&id&=${item.id}">Editar</a></td>
+          <td><a href="mvc?logica=RemoveItem&id=${item.id}&venda_id=${venda.id}">Excluir</a></td>
         </tr>
       </c:forEach>
     </table>
-    <a href="mvc?logica=AdicionaItem">Novo Item</a><br/>
+    <a href="mvc?logica=AdicionaItem&venda_id=${venda.id}">Novo Item</a><br/>
 </html>
