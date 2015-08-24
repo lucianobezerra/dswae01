@@ -1,0 +1,46 @@
+table{
+  font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+  width:100%;
+  border-collapse:collapse;
+}
+
+table td, th{
+  border:1px solid #2424FF;
+  padding:3px 7px 2px 7px;
+}
+
+table th{
+  font-size:1.0em;
+  text-align:left;
+  padding-top:5px;
+  padding-bottom:4px;
+  background-color:#2E82FF;
+  color:#fff;
+}
+
+table tr:nth-child(odd){
+  color:#000;
+  background-color:#D6EDFF;
+}
+
+a:link { 
+  text-decoration:none; 
+} 
+fieldset {
+    font-family: sans-serif;
+    border: 1px solid;
+    border-radius: 5px;
+    padding: 10px;
+}
+Label, legend {
+  display: block;
+  margin-left: 3px;
+  padding-top: 2px;
+  text-shadow: 2px 2px 3px rgba(150, 150, 150, 0.75);
+  font-family:Verdana, Geneva, sans-serif;
+  font-size:.9em;
+}
+
+.inline {
+  display:inline-block;
+}
