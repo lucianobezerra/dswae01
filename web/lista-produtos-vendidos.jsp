@@ -15,28 +15,31 @@
   </head>
   <body>
     <div id="cssmenu"></div>
-    <h3>Listagem de Vendas</h3>
+    <h3>Listagem de Vendas por Periodo</h3>
+    <h4>Periodo: ${data1} a ${data2}</h4>
     <table>
       <tr>
-        <th>Cod</th>
+        <th>Seq</th>
         <th>Cliente</th>
+        <th>Cidade</th>
         <th>Data</th>
         <th>Qtde itens</th>
         <th>Valor Total</th>
-        <th colspan="3" style="text-align: center">Ação</th>
       </tr>
-      <c:forEach var="venda" items="${vendas}">
+      <c:forEach var="venda" items="${vendas}" varStatus="line">
+        <c:set var="total" value="${total + venda.valor}" /> 
         <tr>
-          <td>${venda.id}</td>
+          <td>${line.count}</td>
           <td>${venda.cliente.getNome()}</td>
+          <td>${venda.cliente.getCidade()}</td>
           <td><fmt:formatDate value="${venda.data.time}" pattern="dd/MM/yyyy" /></td>
           <td>${venda.quantidade}</td>
-          <td><fmt:formatNumber type="currency" maxFractionDigits="2" value="${venda.valor}" /></td>
-          <td><a href="#">Editar</a></td>
-          <td><a href="mvc?logica=RemoveVenda&id=${venda.id}">Excluir</a></td>
-          <td><a href="mvc?logica=ListaItens&venda_id=${venda.id}"><img src="btn_items.jpg" title="Ver Itens" /></a></td>
+          <td style="text-align: right"><fmt:formatNumber type="currency" maxFractionDigits="2" value="${venda.valor}" /></td>
         </tr>
       </c:forEach>
+        <tr>
+          <td colspan="5" style="text-align: right">Total</td>
+          <td style="text-align: right"><fmt:formatNumber type="currency" maxFractionDigits="2" value="${total}" /></td>
+        </tr>
     </table>
-    <a href="mvc?logica=AdicionaVenda">Nova Venda</a><br/>
 </html>

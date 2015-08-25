@@ -6,8 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jdbc.ConnectionFactory;
 import model.Item;
 import model.Venda;
@@ -82,6 +86,34 @@ public class VendaDao {
       stmt.close();
       return vendas;
     } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+  public List<Venda> getVendas(String d1, String d2) {
+    try {
+      SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+      java.util.Date data1 = sdf.parse(d1);
+      java.util.Date data2 = sdf.parse(d2);
+      List<Venda> vendas = new ArrayList<>();
+      PreparedStatement stmt = connection.prepareStatement("select * from vendas where data between ? and ?");
+      stmt.setDate(1, new java.sql.Date(data1.getTime()));
+      stmt.setDate(2, new java.sql.Date(data2.getTime()));
+      ResultSet rs = stmt.executeQuery();
+      while (rs.next()) {
+        Venda venda = new Venda();
+        venda.setId(rs.getInt("id"));
+        venda.setCliente(new ClienteDao().getCliente(rs.getInt("cliente_id")));
+        Calendar data = Calendar.getInstance();
+        data.setTime(rs.getDate("data"));
+        venda.setData(data);
+        venda.setQuantidade(rs.getInt("quantidade"));
+        venda.setValor(rs.getDouble("valor"));
+        vendas.add(venda);
+      }
+      rs.close();
+      stmt.close();
+      return vendas;
+    } catch (SQLException | ParseException e) {
       throw new RuntimeException(e);
     }
   }

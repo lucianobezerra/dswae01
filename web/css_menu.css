@@ -11,6 +11,18 @@
   display: block;
   zoom: 1;
 }
+#cssrel {
+  width: auto;
+}
+#cssrel ul {
+  list-style: none;
+  margin: 10px 15px 15px 15px;
+  padding: 5px 5px 5px 5px;
+  line-height: 1;
+  display: block;
+  zoom: 1;
+}
+
 #cssmenu ul:after {
   content: " ";
   display: block;
