@@ -18,11 +18,18 @@
     <h4>Dados da Venda</h4>
     <table>
       <tr>
+        <td>Cód</td>
+        <td>Cliente</td>
+        <td>Data</td>
+        <td>Qtde Itens</td>
+        <td>Valor Total</td>
+      </tr>
+      <tr>
         <td>${venda.id}</td>
         <td>${venda.cliente.getNome()}</td>
         <td><fmt:formatDate value="${venda.data.time}" pattern="dd/MM/yyyy" /></td>
         <td>${venda.quantidade}</td>
-        <td>${venda.valor}</td>
+        <td><fmt:formatNumber type="currency" maxFractionDigits="2" value="${venda.valor}" /></td>
       </tr>
     </table>
     <table>
@@ -34,13 +41,13 @@
         <th>Valor Total</th>
         <th colspan="2" style="text-align: center">Ação</th>
       </tr>
-      <c:forEach var="item" items="${itens}">
+      <c:forEach var="item" items="${itens}" varStatus="line">
         <tr>
-          <td>${item.id}</td>
+          <td>${line.count}</td>
           <td>${item.produto.getDescricao()}</td>
-          <td>${item.quantidade}</td>
-          <td>${item.valor}</td>
-          <td>${item.total}</td>
+          <td style="text-align: center">${item.quantidade}</td>
+          <td style="text-align: right"><fmt:formatNumber type="currency" maxFractionDigits="2" value="${item.valor}" /></td>
+          <td style="text-align: right"><fmt:formatNumber type="currency" maxFractionDigits="2" value="${item.total}" /></td>
           <td><a href="mvc?logica=AlteraItem&id&=${item.id}">Editar</a></td>
           <td><a href="mvc?logica=RemoveItem&id=${item.id}&venda_id=${venda.id}">Excluir</a></td>
         </tr>
