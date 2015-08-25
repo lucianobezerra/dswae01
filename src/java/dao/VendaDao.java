@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jdbc.ConnectionFactory;
 import model.Item;
 import model.Venda;
@@ -111,6 +109,28 @@ public class VendaDao {
       throw new RuntimeException(ex);
     }
   }
+  
+  public Item getItem(int id){
+    try {
+      PreparedStatement stmt = connection.prepareStatement("select * from itens where id = ?");
+      stmt.setInt(1, id);
+      Item item = new Item();
+      ResultSet rs = stmt.executeQuery();
+      while(rs.next()){
+        item.setId(rs.getInt("id"));
+        item.setVenda(new VendaDao().getVenda(rs.getInt("venda_id")));
+        item.setProduto(new ProdutoDao().getProduto(rs.getInt("produto_id")));
+        item.setQuantidade(rs.getInt("quantidade"));
+        item.setValor(rs.getDouble("valor"));
+        item.setTotal(rs.getDouble("total"));
+      }
+      rs.close();
+      stmt.close();
+      return item;
+    } catch (SQLException ex) {
+      throw new RuntimeException(ex);
+    }
+  }
 
   public Venda getVenda(int id) {
     Venda venda = new Venda();
@@ -130,7 +150,7 @@ public class VendaDao {
       rs.close();
       stmt.close();
     } catch (SQLException ex) {
-      Logger.getLogger(ex.getLocalizedMessage());
+      System.out.println(ex.getLocalizedMessage());
     }
     return venda;
   }

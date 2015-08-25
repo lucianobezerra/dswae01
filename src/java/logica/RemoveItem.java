@@ -11,23 +11,19 @@ public class RemoveItem implements Logica{
 
   @Override
   public String executa(HttpServletRequest req, HttpServletResponse res) throws Exception {
-    int id = Integer.parseInt(req.getParameter("id"));
-    //int venda_id = Integer.parseInt(req.getParameter("venda_id"));
-    Item item = new Item();
-    item.setId(id);
-    ItemDao dao = new ItemDao();
-    dao.remove(item);
+    int item_id  = Integer.parseInt(req.getParameter("id"));
+    int venda_id = Integer.parseInt(req.getParameter("venda_id"));
+    
+    Item item = new ItemDao().getItem(item_id);
     atualizaVenda(item);
-    System.out.println("Excluindo Produto");
-    return "mvc?logica=ListaItens";
+    new ItemDao().remove(item.getId());
+    return "mvc?logica=ListaItens&venda_id="+venda_id;
   }
   private void atualizaVenda(Item item) {
     Venda venda = item.getVenda();
     venda.setQuantidade(venda.getQuantidade() - item.getQuantidade());
     venda.setValor(venda.getValor() - item.getTotal());
-    
-    VendaDao dao = new VendaDao();
-    dao.altera(venda);
+    new VendaDao().altera(venda);
   }
   
 }

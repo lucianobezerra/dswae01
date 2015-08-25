@@ -53,10 +53,10 @@ public class ItemDao {
     }
   }
 
-  public void remove(Item item) {
+  public void remove(int id) {
     try {
       PreparedStatement stmt = connection.prepareStatement("delete from itens where id = ?");
-      stmt.setInt(1, item.getId());
+      stmt.setInt(1, id);
       stmt.execute();
       stmt.close();
     } catch (SQLException e) {
@@ -113,5 +113,27 @@ public class ItemDao {
       Logger.getLogger(ex.getLocalizedMessage());
     }
     return venda;
+  }
+  
+  public Item getItem(int id) {
+    Item item = new Item();
+    try {
+      PreparedStatement stmt = connection.prepareStatement("select * from itens where id = ?");
+      stmt.setInt(1, id);
+      ResultSet rs = stmt.executeQuery();
+      if (rs.next()) {
+        item.setId(rs.getInt("id"));
+        item.setVenda(new VendaDao().getVenda(rs.getInt("venda_id")));
+        item.setProduto(new ProdutoDao().getProduto(rs.getInt("produto_id")));
+        item.setQuantidade(rs.getInt("quantidade"));
+        item.setValor(rs.getDouble("valor"));
+        item.setTotal(rs.getInt("quantidade") * rs.getDouble("valor"));
+      }
+      rs.close();
+      stmt.close();
+    } catch (SQLException ex) {
+      System.out.println(ex.getLocalizedMessage());
+    }
+    return item;
   }
 }
