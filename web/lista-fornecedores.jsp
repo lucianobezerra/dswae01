@@ -8,8 +8,14 @@
     <link rel="stylesheet" type="text/css" href="css_menu.css">
     <script src="jquery.js"></script>
     <script type="text/javascript">
-      $(document).ready(function(){
+      $(document).ready(function () {
         $('#cssmenu').load('menu.html');
+        $('.delete').click(function () {
+          if (confirm('Are you sure?')) {
+            alert('excluir');
+          }
+          return false;
+        });
       });
     </script>
   </head>
@@ -33,7 +39,7 @@
           <td>${fornecedor.uf}</td>
           <td>${fornecedor.cidade}</td>
           <td><a href="mvc?logica=AlteraFornecedor&id=${fornecedor.id}">Editar</a></td>
-          <td><a href="mvc?logica=RemoveFornecedor&id=${fornecedor.id}">Excluir</a></td>
+          <td><a class="delete" href="mvc?logica=RemoveFornecedor&id=${fornecedor.id}">Excluir</a></td>
         </tr>
       </c:forEach>
     </table>
