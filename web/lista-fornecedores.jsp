@@ -11,8 +11,16 @@
       $(document).ready(function () {
         $('#cssmenu').load('menu.html');
         $('.delete').click(function () {
-          if (confirm('Are you sure?')) {
-            alert('excluir');
+          var url = "mvc?logica=RemoveFornecedor";
+          var id  = $(this).attr('cod');
+          if (confirm('Tem Certeza que deseja EXCLUIR?')) {
+            $.ajax({
+              method: 'POST',
+              url: url,
+              data: {id: id }
+            });
+            var linha = $(this).parent().parent();
+            linha.remove();
           }
           return false;
         });
@@ -39,7 +47,7 @@
           <td>${fornecedor.uf}</td>
           <td>${fornecedor.cidade}</td>
           <td><a href="mvc?logica=AlteraFornecedor&id=${fornecedor.id}">Editar</a></td>
-          <td><a class="delete" href="mvc?logica=RemoveFornecedor&id=${fornecedor.id}">Excluir</a></td>
+          <td><a class="delete" href="#" cod="${fornecedor.id}">Excluir</a></td>
         </tr>
       </c:forEach>
     </table>
